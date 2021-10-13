@@ -3,21 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+    <!--Project will start from this file-->
+    <welcome-file-list>
+        <welcome-file>index.xhtml</welcome-file>
+    </welcome-file-list>
+
+    <!--Setting up servlets process-->
     <servlet>
-        <servlet-name>AreaCheckServlet</servlet-name>
-        <servlet-class>servlet.AreaCheckServlet</servlet-class>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <!--Boolean value showing we start this servlets, when we start a project-->
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>AreaCheckServlet</servlet-name>
-        <url-pattern>/check_area</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>ControllerServlet</servlet-name>
-        <servlet-class>servlet.ControllerServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>ControllerServlet</servlet-name>
-        <url-pattern>/controller</url-pattern>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 </web-app>
