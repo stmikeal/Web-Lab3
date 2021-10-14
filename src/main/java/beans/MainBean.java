@@ -1,23 +1,22 @@
 
 package beans;
 
-import tools.DatabaseHandler;
 import tools.Point;
 import tools.PointDB;
 
-import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean(name = "mainBean")
-@SessionScoped
-public class MainBean {
+@ApplicationScoped
+public class MainBean implements Serializable {
 
     private String x = "0";
     private String y = "0";
@@ -25,7 +24,6 @@ public class MainBean {
     private List<Point> points;
     private final PointDB pointHandler;
     private final String sessionID;
-    private final DatabaseHandler dbHandler = new DatabaseHandler();
 
     public MainBean(){
         points = new ArrayList<>();
@@ -33,6 +31,7 @@ public class MainBean {
         FacesContext fCtx = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
         this.sessionID = session.getId();
+        System.out.println("Bean init");
     }
 
     public String getDateTime() {
@@ -80,13 +79,10 @@ public class MainBean {
     }
 
     public void addPoint() {
+        pointHandler.open();
         Point point = new Point(x, y ,r);
         points.add(point);
-        pointHandler.add(point);
-        FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage("Проверка точки. "+
-                        "X: " + point.getX() + " Y: " + point.getY() + " R: " + point.getR() +
-                        " " + point.getHit()));
+        //pointHandler.add(point);
     }
 
     public void showClearMessage() {
