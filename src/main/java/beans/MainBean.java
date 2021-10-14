@@ -25,7 +25,7 @@ public class MainBean implements Serializable {
     private final PointDB pointHandler;
     private final String sessionID;
 
-    public MainBean(){
+    public MainBean() {
         points = new ArrayList<>();
         pointHandler = new PointDB();
         FacesContext fCtx = FacesContext.getCurrentInstance();
@@ -79,10 +79,8 @@ public class MainBean implements Serializable {
     }
 
     public void addPoint() {
-        pointHandler.open();
-        Point point = new Point(x, y ,r);
+        Point point = new Point(x, y, r);
         points.add(point);
-        //pointHandler.add(point);
     }
 
     public void showClearMessage() {
