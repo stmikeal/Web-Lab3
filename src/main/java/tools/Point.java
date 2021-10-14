@@ -1,8 +1,6 @@
 package tools;
 
-import javax.faces.context.FacesContext;
 import javax.persistence.*;
-import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,9 +8,10 @@ import java.time.format.DateTimeFormatter;
 @Entity
 @Table(name = "POINTS")
 public class Point implements Serializable {
+
     @Id
     @GeneratedValue
-    private int id ;
+    private long id;
     @Column(name = "x")
     private double x;
     @Column(name = "y")
@@ -28,7 +27,8 @@ public class Point implements Serializable {
     @Column(name = "sessionid")
     private String sessionid;
 
-    public Point(){}
+    public Point() {
+    }
 
     public Point(String xParam, String yParam, String rParam) {
         this.scriptTime = System.currentTimeMillis();
@@ -36,9 +36,6 @@ public class Point implements Serializable {
         this.sendTime = LocalDateTime.now().format(formatter);
         setFields(xParam, yParam, rParam);
         this.hit = checkHit() ? "Попадание" : "Промах";
-        FacesContext fCtx = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
-        this.sessionid = session.getId();
         this.scriptTime = System.currentTimeMillis() - this.scriptTime;
         this.scriptTime = this.scriptTime > 0 ? this.scriptTime : 3;
     }
@@ -65,23 +62,22 @@ public class Point implements Serializable {
     }
 
     private boolean checkHit() {
-        return checkCircle()||checkRectangle()||checkTriangle();
+        return checkCircle() || checkRectangle() || checkTriangle();
     }
 
     private boolean checkTriangle() {
-        return y-2*x <= r && y >= 0 && x <= 0;
+        return y - 2 * x <= r && y >= 0 && x <= 0;
     }
 
     private boolean checkCircle() {
-        return x*x + y*y <= r*r && x >= 0 && y <= 0;
+        return x * x + y * y <= r * r && x >= 0 && y <= 0;
     }
 
     private boolean checkRectangle() {
-        return x >= 0 && y >= 0 && y <= r && 2*x < r;
+        return x >= 0 && y >= 0 && y <= r && 2 * x < r;
     }
 
-    @Id
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -113,7 +109,7 @@ public class Point implements Serializable {
         return sessionid;
     }
 
-    public void setId(int ID) {
+    public void setId(long ID) {
         this.id = ID;
     }
 

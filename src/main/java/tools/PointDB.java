@@ -1,10 +1,8 @@
 package tools;
 
-import javax.faces.bean.ApplicationScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -14,20 +12,39 @@ import java.util.List;
 @ApplicationScoped
 public class PointDB {
 
-    private final EntityManagerFactory entityManagerFactory;
+    private EntityManagerFactory entityManagerFactory;
 
-    public PointDB(){
-        System.out.println("Some shit code to add break.");
-        entityManagerFactory = Persistence.createEntityManagerFactory("hibernate");
-        System.out.println("Some shit code to add break.\n ManagerFactory has been created.");
+    /*
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    @PostConstruct гарантирует единождое выполнение навешанного на аннотацию метода,
+    а конструтор может вызываться несколько раз. Тебе же это не надо.
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     */
+//    public PointDB(){
+//        System.out.println("EntityManagerFactory init.");
+//        entityManagerFactory = Persistence.createEntityManagerFactory("hibernate1");
+//        System.out.println("EntityManagerFactory init.");
+//    }
+    @PostConstruct
+    void init(){
+        entityManagerFactory = Persistence.createEntityManagerFactory("hibernate1");
+        System.out.println("EntityManagerFactory init.");
     }
 
     public void add(Point point) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-        entityManager.persist(point);
-        entityManager.flush();
-        entityManager.getTransaction().commit();
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        try {
+            entityTransaction.begin();
+            entityManager.persist(point);
+            entityTransaction.commit();
+        } catch (Exception ex) {
+            try {
+                entityTransaction.rollback();
+            } catch (Exception exc) {
+                exc.printStackTrace();
+            }
+        }
         entityManager.close();
     }
 
