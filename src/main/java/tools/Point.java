@@ -1,16 +1,27 @@
 package tools;
 
+import javax.faces.context.FacesContext;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.servlet.http.HttpSession;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Entity
+@Table(name = "points")
 public class Point implements Serializable {
+    private int id;
     private double x;
     private double y;
     private double r;
     private long scriptTime;
     private String sendTime;
     private String hit;
+    private String sessionID;
+
+    public Point(){}
 
     public Point(String xParam, String yParam, String rParam) {
         this.scriptTime = System.currentTimeMillis();
@@ -18,6 +29,9 @@ public class Point implements Serializable {
         this.sendTime = LocalDateTime.now().format(formatter);
         setFields(xParam, yParam, rParam);
         this.hit = checkHit() ? "Попадание" : "Промах";
+        FacesContext fCtx = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
+        this.sessionID = session.getId();
         this.scriptTime = System.currentTimeMillis() - this.scriptTime;
         this.scriptTime = this.scriptTime > 0 ? this.scriptTime : 3;
     }
@@ -59,6 +73,11 @@ public class Point implements Serializable {
         return x >= 0 && y >= 0 && y <= r && 2*x < r;
     }
 
+    @Id
+    public int getId() {
+        return id;
+    }
+
     public double getX() {
         return x;
     }
@@ -71,8 +90,8 @@ public class Point implements Serializable {
         return r;
     }
 
-    public String getScriptTime() {
-        return scriptTime + " ms";
+    public long getScriptTime() {
+        return scriptTime;
     }
 
     public String getSendTime() {
@@ -81,5 +100,41 @@ public class Point implements Serializable {
 
     public String getHit() {
         return hit;
+    }
+
+    public String getSessionID() {
+        return sessionID;
+    }
+
+    public void setId(int ID) {
+        this.id = ID;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public void setR(double r) {
+        this.r = r;
+    }
+
+    public void setScriptTime(long scriptTime) {
+        this.scriptTime = scriptTime;
+    }
+
+    public void setSendTime(String sendTime) {
+        this.sendTime = sendTime;
+    }
+
+    public void setHit(String hit) {
+        this.hit = hit;
+    }
+
+    public void setSessionID(String sessionID) {
+        this.sessionID = sessionID;
     }
 }

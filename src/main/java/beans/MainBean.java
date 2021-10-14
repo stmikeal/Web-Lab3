@@ -1,12 +1,15 @@
 
 package beans;
 
+import tools.DatabaseHandler;
 import tools.Point;
+import tools.PointDB;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,16 +23,21 @@ public class MainBean {
     private String y = "0";
     private String r = "1";
     private List<Point> points;
-    private LocalDateTime dateTime;
+    private final PointDB pointHandler;
+    private final String sessionID;
+    private final DatabaseHandler dbHandler = new DatabaseHandler();
 
     public MainBean(){
-        dateTime = LocalDateTime.now();
         points = new ArrayList<>();
+        pointHandler = new PointDB();
+        FacesContext fCtx = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
+        this.sessionID = session.getId();
     }
 
     public String getDateTime() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss dd.MM.yyyy");
-        return LocalDateTime.now().format(formatter).toString();
+        return LocalDateTime.now().format(formatter);
     }
 
     public String getX() {
@@ -48,9 +56,6 @@ public class MainBean {
         return points;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
-    }
 
     public void setX(String x) {
         this.x = x;
@@ -68,11 +73,8 @@ public class MainBean {
         this.points = points;
     }
 
-    public void validateNumber(String value) {
-        System.out.println(value);
-    }
-
     public void clearPoints() {
+        pointHandler.clear(sessionID);
         points.clear();
         showClearMessage();
     }
@@ -80,6 +82,7 @@ public class MainBean {
     public void addPoint() {
         Point point = new Point(x, y ,r);
         points.add(point);
+        pointHandler.add(point);
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage("Проверка точки. "+
                         "X: " + point.getX() + " Y: " + point.getY() + " R: " + point.getR() +
