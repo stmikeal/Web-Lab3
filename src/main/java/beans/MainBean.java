@@ -4,34 +4,29 @@ package beans;
 import tools.Point;
 import tools.PointDB;
 
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-@ManagedBean(name = "mainBean")
-@ApplicationScoped
+@Named("mainBean")
+@SessionScoped
 public class MainBean implements Serializable {
+
+    @Inject
+    private PointDB pointDB;
 
     private String x = "0";
     private String y = "0";
     private String r = "1";
     private List<Point> points;
-    private final PointDB pointHandler;
-    private final String sessionID;
 
-    public MainBean(){
+    public MainBean() {
         points = new ArrayList<>();
-        pointHandler = new PointDB();
-        FacesContext fCtx = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
-        this.sessionID = session.getId();
-        System.out.println("Bean init");
     }
 
     public String getDateTime() {
@@ -73,16 +68,14 @@ public class MainBean implements Serializable {
     }
 
     public void clearPoints() {
-        pointHandler.clear(sessionID);
         points.clear();
         showClearMessage();
     }
 
     public void addPoint() {
-        pointHandler.open();
-        Point point = new Point(x, y ,r);
+        Point point = new Point(x, y, r);
+        pointDB.add(point);
         points.add(point);
-        //pointHandler.add(point);
     }
 
     public void showClearMessage() {

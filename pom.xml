@@ -31,32 +31,31 @@
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.faces</artifactId>
-            <version>2.2.10</version>
+            <version>2.4.0</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>4.0.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>5.5.7.Final</version>
         </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.5.7.Final</version>
-        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.4</version>
+            <version>42.2.24.jre7</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/javax.enterprise/cdi-api -->
         <dependency>
-            <groupId>com.sap.cloud.db.jdbc</groupId>
-            <artifactId>ngdbc</artifactId>
-            <version>2.4.70</version>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <version>2.0-PFD2</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
