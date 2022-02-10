@@ -3,21 +3,16 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
     <h:body>
         <ui:composition template="/views/templates/contentTemplate.xhtml">
-            <ui:define name="title">Web-Lab3</ui:define>
-            <ui:define name="header">
-                <tr>
-                    <td id="header-title" colspan="2">
-                        <center id="header-text">
-                            Студент: Степанов Михаил Алексеевич<br/>
-                            Группа: P3230<br/>
-                            Вариант: 30615
-                        </center>
-                    </td>
-                </tr>
+            <ui:define name="buttonBack">
+                <center>
+                    <p:commandButton value="FUCK GO BACK IM SERIIOUS" action="prevPage"/>
+                </center>
             </ui:define>
+            <ui:define name="title">Web-Lab3</ui:define>
             <ui:define name="footer">
                 <tr>
                     <td id="footer-title" colspan="2">

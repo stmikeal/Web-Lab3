@@ -8,13 +8,17 @@
       xmlns:p="http://primefaces.org/ui">
 <f:view>
    <h:head>
-      <h:outputStylesheet name="styles/style.css"/>
+      <h:outputStylesheet name="styles/style.css" />
       <title><ui:insert name="title"/></title>
    </h:head>
 
    <body>
    <table id="main-grid">
-      <ui:insert name="header"/>
+      <tr>
+         <td>
+            <ui:insert name="buttonBack"/>
+         </td>
+      </tr>
       <tr>
          <ui:insert name="graphic">
             <ui:include src="/views/templates/graphicTemplates.xhtml"/>

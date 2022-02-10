@@ -1,6 +1,11 @@
 package tools;
 
+import javax.faces.annotation.FacesConfig;
+import javax.faces.context.FacesContext;
+import javax.faces.view.facelets.FaceletContext;
 import javax.persistence.*;
+import javax.servlet.http.HttpSession;
+import javax.xml.ws.spi.http.HttpContext;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,7 +40,8 @@ public class Point implements Serializable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         this.sendTime = LocalDateTime.now().format(formatter);
         setFields(xParam, yParam, rParam);
-        this.hit = checkHit() ? "Попадание" : "Промах";
+        this.hit = checkHit() ? "Hitted" : "Miss";
+        this.sessionid = ((HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false)).getId();
         this.scriptTime = System.currentTimeMillis() - this.scriptTime;
         this.scriptTime = this.scriptTime > 0 ? this.scriptTime : 3;
     }

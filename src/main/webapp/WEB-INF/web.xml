@@ -5,7 +5,7 @@
          version="4.0">
     <!--Project will start from this file-->
     <welcome-file-list>
-        <welcome-file>index.xhtml</welcome-file>
+        <welcome-file>/views/index.xhtml</welcome-file>
     </welcome-file-list>
 
     <!--Setting up servlets process-->

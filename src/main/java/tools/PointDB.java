@@ -6,10 +6,9 @@ import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
-
-@ApplicationScoped
 public class PointDB {
 
     private EntityManagerFactory entityManagerFactory;
@@ -20,13 +19,7 @@ public class PointDB {
     а конструтор может вызываться несколько раз. Тебе же это не надо.
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      */
-//    public PointDB(){
-//        System.out.println("EntityManagerFactory init.");
-//        entityManagerFactory = Persistence.createEntityManagerFactory("hibernate1");
-//        System.out.println("EntityManagerFactory init.");
-//    }
-    @PostConstruct
-    void init(){
+    public PointDB(){
         entityManagerFactory = Persistence.createEntityManagerFactory("hibernate1");
         System.out.println("EntityManagerFactory init.");
     }
@@ -48,8 +41,13 @@ public class PointDB {
         entityManager.close();
     }
 
-    public void clear(String session_id) {
-
+    public void clear() {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query q1 = entityManager.createQuery("DELETE FROM Point");
+        EntityTransaction entityTransaction = entityManager.getTransaction();
+        entityTransaction.begin();
+        q1.executeUpdate();
+        entityTransaction.commit();
     }
 
     public List<Point> findAll(String session_id) {
@@ -59,7 +57,6 @@ public class PointDB {
         Root<Point> root = criteriaQuery.from(Point.class);
         CriteriaQuery<Point> all = criteriaQuery.select(root);
         TypedQuery<Point> allQuery = entityManager.createQuery(all);
-        entityManager.close();
         return allQuery.getResultList();
     }
 }

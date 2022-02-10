@@ -29,7 +29,7 @@ function drawSample(x = basicX, y = basicY, r = basicR) {
     /*
         Draw background
     */
-    ctx.fillStyle = $('body').css('backgroundColor');
+    ctx.fillStyle = "#222222";
     ctx.fillRect(0, 0, elem.width, elem.height);
     /*
         Options for graphic-zone
@@ -219,13 +219,13 @@ function addMouseEvent() {
                 pointsX.push(valueX);
                 pointsY.push(valueY);
                 drawSample();
-                let oldX = document.getElementById("j_idt14:xInput_input").value;
-                let oldY = document.getElementById("j_idt14:yInput").value;
-                document.getElementById("j_idt14:xInput_input").value = String(valueX).substr(0, 8);
-                document.getElementById("j_idt14:yInput").value = String(valueY).substr(0, 8);
-                document.getElementById("j_idt14:checkButton").click();
-                document.getElementById("j_idt14:xInput_input").setAttribute("value", "2");
-                document.getElementById("j_idt14:yInput").value = "2";
+                let oldX = document.getElementById("j_idt16:xInput_input").value;
+                let oldY = document.getElementById("j_idt16:yInput").value;
+                document.getElementById("j_idt16:xInput_input").value = String(valueX).substr(0, 8);
+                document.getElementById("j_idt16:yInput").value = String(valueY).substr(0, 8);
+                document.getElementById("j_idt16:checkButton").click();
+                document.getElementById("j_idt16:xInput_input").setAttribute("value", "2");
+                document.getElementById("j_idt16:yInput").value = "2";
             }
         }
     }, false)
